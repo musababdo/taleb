@@ -1,16 +1,84 @@
-# taleb
+# Database Restore Guide
 
-A new Flutter project.
+## 1. Full Database Restore
 
-## Getting Started
+Before restoring the full database, clear the existing database.
 
-This project is a starting point for a Flutter application.
+Go to the **SQL Editor** in your database dashboard and run:
 
-A few resources to get you started if this is your first Flutter project:
+```sql
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Then run:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```powershell
+.\restore-full.ps1
+```
+
+---
+
+## 2. Restore a Single Table
+
+To restore only one table:
+
+```powershell
+.\restore-table.ps1 table_name
+```
+
+**Example:**
+
+```powershell
+.\restore-table.ps1 users
+```
+
+---
+
+## 3. Restore Multiple Tables
+
+To restore multiple tables:
+
+```powershell
+.\restore-tables.ps1 table_name1 table_name2 table_name3
+```
+
+**Example:**
+
+```powershell
+.\restore-tables.ps1 users products orders
+```
+
+---
+
+## 4. Replace a Single Table
+
+This will delete the current table and restore it from the latest backup.
+
+```powershell
+.\restore-replace-table.ps1 table_name
+```
+
+**Example:**
+
+```powershell
+.\restore-replace-table.ps1 users
+```
+
+---
+
+## 5. Replace Multiple Tables
+
+This will replace multiple existing tables with the versions from the latest backup.
+
+```powershell
+.\restore-replace-tables.ps1 table_name1 table_name2 table_name3
+```
+
+**Example:**
+
+```powershell
+.\restore-replace-tables.ps1 users products orders
+```
+
+You can specify as many table names as needed.
